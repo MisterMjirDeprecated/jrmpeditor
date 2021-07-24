@@ -1,0 +1,19 @@
+# Libraries
+licenses/
+cglm/
+lodepng/
+
+# Editor Stuff
+.clangd
+
+# CMake Stuff
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+compile_commands.json
+
+# Build
+bin/
+
+# Build (Linux)
+Makefile
