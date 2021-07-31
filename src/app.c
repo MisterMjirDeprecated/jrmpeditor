@@ -47,8 +47,8 @@ int EDTR_app_run(struct EDTR_App *app)
   unsigned int texture;
   EDTR_create_texture(&texture, "res/tiles.png");
   
-  // Data
   glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+  glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, -1.0f, 1.0f);
 
   glUseProgram(sprite_program);
 
@@ -64,6 +64,7 @@ int EDTR_app_run(struct EDTR_App *app)
     glClear(GL_COLOR_BUFFER_BIT);
 
     /* Draw the viewport */
+    EDTR_viewport_draw(&app->viewport);
 
     /* Test the renderer */
     EDTR_renderer_draw(renderer, texture, 0, 0, 32, 32, 32, 0, 32, 32);

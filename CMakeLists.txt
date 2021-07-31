@@ -11,6 +11,7 @@ add_executable(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/src/app.c
   ${CMAKE_CURRENT_LIST_DIR}/src/graphics.c
   ${CMAKE_CURRENT_LIST_DIR}/src/main.c
+  ${CMAKE_CURRENT_LIST_DIR}/src/viewport.c
   
   ${CMAKE_CURRENT_LIST_DIR}/lodepng/lodepng.c
 )

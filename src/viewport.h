@@ -26,4 +26,6 @@ struct EDTR_Viewport {
   uint8_t flags;
 };
 
+int EDTR_viewport_draw(struct EDTR_Viewport *);
+
 #endif
