@@ -26,8 +26,6 @@ int EDTR_app_create(struct EDTR_App *app)
   /* VIEWPORT */
   app->viewport.width = 640;
   app->viewport.height = 320;
-  app->viewport.camera_x = 0x8000000000000000;
-  app->viewport.camera_y = 0x8000000000000000;
 
   return 0;
 }
@@ -41,6 +39,7 @@ int EDTR_app_destroy(struct EDTR_App *app)
 
 int EDTR_app_run(struct EDTR_App *app)
 {
+  /* GL and Graphics */
   unsigned int sprite_program;
   EDTR_create_program(&sprite_program, "res/shaders/sprite_v.glsl", "res/shaders/sprite_f.glsl");
 
@@ -48,7 +47,7 @@ int EDTR_app_run(struct EDTR_App *app)
   EDTR_create_texture(&texture, "res/tiles.png");
   
   glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-  glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, -1.0f, 1.0f);
+  //glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, -1.0f, 1.0f);
 
   glUseProgram(sprite_program);
 
@@ -57,6 +56,16 @@ int EDTR_app_run(struct EDTR_App *app)
   glUniformMatrix4fv(glGetUniformLocation(sprite_program, "projection"), 1, GL_FALSE, (float *) projection);
 
   struct EDTR_Renderer *renderer = EDTR_renderer_create(sprite_program);
+ 
+  /* Data */
+  app->data = malloc(sizeof(struct JRMP_Data));
+  JRMP_data_create(app->data, "res/default.jrmp");
+  JRMP_data_to_files(app->data);
+  /* Set up viewport */
+  app->viewport.camera.x = 0x8000000000000000;
+  app->viewport.camera.y = 0x8000000000000000;
+  uint8_t layers;
+  JRMP_data_block_seek(app->data, ".MAPINFO");
   
   /* Not temporary: Main loop */
   while (!glfwWindowShouldClose(app->window)) {
@@ -72,6 +81,9 @@ int EDTR_app_run(struct EDTR_App *app)
     glfwSwapBuffers(app->window);
     glfwPollEvents();
   }
+
+  JRMP_data_destory(app->data);
+  free(app->data);
 
   glDeleteProgram(sprite_program);
 

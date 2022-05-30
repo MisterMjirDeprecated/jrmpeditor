@@ -15,15 +15,22 @@ enum EDTR_ViewportFlags {
   EDTR_VIEWPORT_DRAW_ALL = 0
 };
 
+struct EDTR_Camera {
+  int64_t   x;
+  int64_t   y;
+
+  uint64_t *offsets; /* File offsets */
+};
+
 struct EDTR_Viewport {
   int     width;
   int     height;
   int     tile_size;
 
-  int64_t camera_x;
-  int64_t camera_y;
+  struct EDTR_Camera camera;
   uint8_t layer;
-  uint8_t flags;
+  uint32_t tiles_x;
+  uint32_t tiles_y;
 };
 
 int EDTR_viewport_draw(struct EDTR_Viewport *);
